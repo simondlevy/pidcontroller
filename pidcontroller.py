@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 class AltitudePidController(object):
 
@@ -40,21 +41,22 @@ class AltitudePidController(object):
 
 if __name__ == '__main__':
 
-    from time import time
-
     # Can't touch this!
     G = 9.80665
+
+    # Reasonable time constant
+    DT = 0.001
 
     # Constant to experiment with
     ALTITUDE_START  = 100
     ALTITUDE_TARGET = 50
 
     # initial conditions
-    z    = ALTITUDE_START
-    dzdt = 0
-    t0   = time()
-    t1   = 0
-    u    = 0
+    t     = 0
+    z     = ALTITUDE_START
+    dzdt  = 0
+    u     = 0
+    zprev = 0
 
     pid = AltitudePidController(
         ALTITUDE_TARGET,
@@ -65,31 +67,22 @@ if __name__ == '__main__':
 
     while True:
 
-        if z <=0:
+        # If altitude has leveled off, halt
+        if abs(z-zprev) < .0000001:
             break
 
-        t = time() - t0
+        zprev = z
 
-        dt = t - t1
+        dzdt2 = G - u
+        
+        dzdt -= dzdt2 * DT
 
-        if dt > 0:
+        z += dzdt*DT
 
-            dzdt2 = G - u
-            
-            dzdt -= dzdt2 * dt
+        u = pid.u(z, dzdt, DT)
 
-            z += dzdt*dt
+        print('%3.3f,%3.3f,%3.3f,%3.3f,%3.3f' % (t, dzdt2, dzdt, z, u))
 
-            u = pid.u(z, dzdt, dt)
-
-            print('t: %-08.3f: dzdt2: %-10.3f dzdt: %-10.3f z: %-10.3f | u: %-10.3f' %
-                  (t, dzdt2, dzdt, z, u))
-
-        t1 = t
-
-
-    print('********************************************************')
-    print("********** I'VE FALLEN, AND I CAN'T GET UP! ************")
-    print('********************************************************')
+        t += DT
 
         
