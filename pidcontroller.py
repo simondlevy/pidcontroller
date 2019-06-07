@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+'''
+Simple altitude-hold PID controller
+
+Copyright (C) 2019 Simon D. Levy
+
+MIT License
+'''
 
 class AltitudePidController(object):
 
