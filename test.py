@@ -20,7 +20,7 @@ DT = 0.001
 # Target params
 ALTITUDE_START  = 0
 ALTITUDE_TARGET = 10
-ALTITUDE_TOLERANCE = 1E-7
+ALTITUDE_TOLERANCE = .0001 # level-off velocity
 
 # Vehicle params
 MAXRPM = 30000
@@ -48,7 +48,6 @@ if __name__ == '__main__':
     z     = ALTITUDE_START
     dzdt  = 0
     u     = 0
-    zprev = 0
 
     # PID params
     ALT_P = 5
@@ -68,7 +67,7 @@ if __name__ == '__main__':
     while True:
 
         # If altitude has leveled off, halt
-        if abs(z) != 0 and abs(z-zprev) < ALTITUDE_TOLERANCE:
+        if abs(z) != 0 and abs(dzdt) < ALTITUDE_TOLERANCE:
             break
 
         # Get correction from PID controller
@@ -82,9 +81,6 @@ if __name__ == '__main__':
 
         # Subtract G from thrust to get net vertical acceleration
         dzdt2 = thrust - G
-
-        # Store previous z for level-off test
-        zprev = z
 
         # Integrate net vertical acceleration to get vertical velocity
         dzdt += dzdt2 * DT
