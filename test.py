@@ -23,7 +23,7 @@ ALTITUDE_TARGET = 10
 ALTITUDE_TOLERANCE = .0001 # level-off velocity
 
 # PID params
-ALT_P = 5
+ALT_P = 1.25
 VEL_P = 1.5
 VEL_I = 1.0
 VEL_D = 0.05
