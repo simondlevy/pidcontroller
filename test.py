@@ -22,6 +22,12 @@ ALTITUDE_START  = 0
 ALTITUDE_TARGET = 10
 ALTITUDE_TOLERANCE = .0001 # level-off velocity
 
+# PID params
+ALT_P = 5
+VEL_P = 1.5
+VEL_I = 1.0
+VEL_D = 0.05
+
 # Vehicle params
 MAXRPM = 30000
 B      = 5.30216718361085E-05 # Thrust coefficient
@@ -48,12 +54,6 @@ if __name__ == '__main__':
     z     = ALTITUDE_START
     dzdt  = 0
     u     = 0
-
-    # PID params
-    ALT_P = 5
-    VEL_P = 1.5
-    VEL_I = 1.0
-    VEL_D = 0.05
 
     # make CSV file name from these params
     filename = '%04.f-%04.f_%3.3f-%3.3f-%3.3f-%3.3f.csv' % (ALTITUDE_START, ALTITUDE_TARGET, ALT_P, VEL_P, VEL_I, VEL_D)
