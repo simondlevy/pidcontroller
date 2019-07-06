@@ -18,7 +18,7 @@ G = 9.80665
 DT = 0.001
 
 # Constant to experiment with
-ALTITUDE_START  = 1E-3
+ALTITUDE_START  = 0
 ALTITUDE_TARGET = 10
 ALTITUDE_TOLERANCE = 1E-7
 
@@ -60,7 +60,7 @@ if __name__ == '__main__':
     while True:
 
         # If altitude has leveled off, halt
-        if abs(z-zprev) < ALTITUDE_TOLERANCE:
+        if abs(z) != 0 and abs(z-zprev) < ALTITUDE_TOLERANCE:
             break
 
         zprev = z
