@@ -18,12 +18,12 @@ G = 9.80665
 DT = 0.001
 
 # Constant to experiment with
-ALTITUDE_START  = 55
-ALTITUDE_TARGET = 50
+ALTITUDE_START  = 0.25
+ALTITUDE_TARGET = 10
 
 def plot(logfilename):
 
-    data = np.genfromtxt(logfilename, delimiter=',')
+    data = np.genfromtxt(logfilename, delimiter=',', skip_header=1)
 
     t = data[:,0]
     z = data[:,3]
@@ -31,9 +31,8 @@ def plot(logfilename):
     plt.plot(t, z)
     plt.xlabel('time (sec)')
     plt.ylabel('altitude (m)')
-    plt.ylim([0,100])
+    plt.ylim([min(z)-1, max(z)+1])
     plt.show()
-        
 
 if __name__ == '__main__':
 
